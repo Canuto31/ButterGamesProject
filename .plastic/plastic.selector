@@ -1,4 +1,0 @@
-repository "ButterGamesProject/ButterGamesProject@4673603694859@cloud"
-  path "/"
-    br "/main"
-    co "/main"
