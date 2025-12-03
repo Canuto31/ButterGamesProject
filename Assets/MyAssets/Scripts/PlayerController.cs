@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     public GameObject projectile;
     public Transform objetive;
 
+    public float health = 100f;
+
     private void Update()
     {
         if (_isPressedMove)
@@ -23,8 +25,7 @@ public class PlayerController : MonoBehaviour
         }
 
         objetive.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        myTransform.rotation = Quaternion.LookRotation(new Vector3(0, 0 ,1), objetive.position - myTransform.position);
-
+        myTransform.rotation = Quaternion.LookRotation(new Vector3(0, 0, 1), objetive.position - myTransform.position);
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -45,8 +46,22 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
-            Instantiate(projectile,myTransform.position, myTransform.rotation);
+            Instantiate(projectile, myTransform.position, myTransform.rotation);
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log(collision.gameObject.tag);
+            health -= 10;
+        }
+        else if (collision.gameObject.CompareTag("Potion"))
+        {
+            Debug.Log(collision.gameObject.tag);
+            health += 10;
+            Destroy(collision.gameObject);
+        }
+    }
 }
